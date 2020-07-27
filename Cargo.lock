@@ -2114,29 +2114,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "safe_authenticator_ffi"
-version = "0.17.1"
-dependencies = [
- "async-trait",
- "bincode",
- "env_logger 0.6.2",
- "ffi_utils",
- "futures",
- "jni",
- "log 0.4.8",
- "rand 0.6.5",
- "safe-nd",
- "safe_authenticator",
- "safe_bindgen",
- "safe_core",
- "serde",
- "threshold_crypto",
- "tiny-keccak",
- "tokio",
- "unwrap",
-]
-
-[[package]]
 name = "safe_bindgen"
 version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
