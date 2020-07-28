@@ -316,7 +316,8 @@ async fn file_write_chunks() -> Result<(), NfsError> {
     }
 
     // Write 0 bytes, should succeed
-    writer.write(&content[GOAL_SIZE..GOAL_SIZE]).await?;
+    let empty: [u8; 0] = [];
+    writer.write(&empty).await?;
     let file = writer.close().await?;
     // Updating file - append
 
@@ -345,7 +346,7 @@ async fn file_write_chunks() -> Result<(), NfsError> {
         }
     }
     // Write 0 bytes, should succeed
-    writer.write(&content[GOAL_SIZE..GOAL_SIZE]).await?;
+    writer.write(&empty).await?;
     let file = writer.close().await?;
 
     let reader = file_helper::read(c4, &file, dir.enc_key().cloned()).await?;

@@ -246,7 +246,7 @@ where
     client
         .mutate_seq_mdata_entries(parent.name(), parent.type_tag(), actions)
         .await
-        .or_else(move |error| {
+        .map_err(move |error| {
             // As we are mutating only one entry, let's make the common errors
             // more convenient to handle.
             if let CoreError::DataError(SndError::InvalidEntryActions(ref errors)) = error {
@@ -254,16 +254,15 @@ where
                     match *error {
                         EntryError::InvalidSuccessor(version)
                         | EntryError::EntryExists(version) => {
-                            return Err(CoreError::DataError(SndError::InvalidSuccessor(
+                            return CoreError::DataError(SndError::InvalidSuccessor(
                                 version.into(),
-                            )));
+                            ));
                         }
                         _ => (),
                     }
                 }
             }
-
-            Err(error)
+            error
         })
         .map_err(From::from)
 }
