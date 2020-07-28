@@ -250,6 +250,7 @@ mod mock_routing {
 
     // Test one app being revoked by multiple authenticator concurrently.
     #[tokio::test]
+    #[allow(unused_variables, unused_assignments)]
     async fn concurrent_revocation_of_single_app() -> Result<(), AuthError> {
         let mut rng = StdRng::from_entropy();
 

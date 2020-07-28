@@ -105,14 +105,13 @@ impl Vault {
             }
             SDataRequest::Mutate(op) => {
                 let id = DataId::Sequence(op.address);
-                let result = self.get_sdata(op.address, requester_pk, &request).and_then(
-                    move |mut sdata| {
-                        sdata.apply_crdt_op(op.crdt_op.clone());
-                        self.commit_mutation(requester.name());
-                        self.insert_data(id, Data::Sequence(sdata));
-                        Ok(())
-                    },
-                );
+                let result =
+                    self.get_sdata(op.address, requester_pk, &request)
+                        .map(move |mut sdata| {
+                            sdata.apply_crdt_op(op.crdt_op.clone());
+                            self.commit_mutation(requester.name());
+                            self.insert_data(id, Data::Sequence(sdata));
+                        });
                 Response::Mutation(result)
             }
             SDataRequest::MutatePubPermissions(op) => {
@@ -141,14 +140,13 @@ impl Vault {
             }
             SDataRequest::MutateOwner(op) => {
                 let id = DataId::Sequence(op.address);
-                let result = self.get_sdata(op.address, requester_pk, &request).and_then(
-                    move |mut sdata| {
-                        sdata.apply_crdt_owner_op(op.crdt_op.clone());
-                        self.commit_mutation(requester.name());
-                        self.insert_data(id, Data::Sequence(sdata));
-                        Ok(())
-                    },
-                );
+                let result =
+                    self.get_sdata(op.address, requester_pk, &request)
+                        .map(move |mut sdata| {
+                            sdata.apply_crdt_owner_op(op.crdt_op.clone());
+                            self.commit_mutation(requester.name());
+                            self.insert_data(id, Data::Sequence(sdata));
+                        });
                 Response::Mutation(result)
             }
             SDataRequest::GetOwner(address) => {
